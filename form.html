@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>表单绑定-checkbox</title>
+		<script type="text/javascript" src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="form_bind">
+			<h2>多选-checkox</h2>
+				<input type="checkbox" v-model="checkboxValues" value="Vue" />Vue
+				<input type="checkbox" v-model="checkboxValues" value="React" />React
+				<input type="checkbox" v-model="checkboxValues" value="jQuery" />jQuery
+				<button type="button" @click="handleSubmit()">submit</button>
+			
+			<h2>单选-checkbox</h2>
+				<input type="checkbox" v-model="isRem" />jQuery
+				<button type="button" @click="handleRem()">submit</button>
+				
+			<h2>多选-radio</h2>
+				<input type="radio" v-model="lang" value="Vue" />Vue
+				<input type="radio" v-model="lang" value="React" />React
+				<input type="radio" v-model="lang" value="jQuery" />jQuery
+				<button type="button" @click="handleSelect()">submit</button>
+		</div>
+		<script type="text/javascript">
+			vm = new Vue({
+				el: "#form_bind",
+				data: {
+					checkboxValues: [],
+					isRem: false,
+					lang: "Vue"
+				},
+				methods: {
+					handleSubmit(){
+						console.log(this.checkboxValues)
+					},
+					handleRem() {
+						console.log(this.isRem)
+					},
+					handleSelect() {
+						console.log(this.lang)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Vue基础入门</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<style type="text/css">
+			.selected {
+				background-color: red;
+			}
+		</style>
+		<div id="app-2">
+		  <span :title="title">
+		    鼠标悬停几秒钟查看此处动态绑定的提示信息！
+		  </span>
+		  <!-- 这个assign函数不包含括号及参数，vue会自动代入一个包含事件的参数evt -->
+		  <!-- <input type="text" name="xxx" id="xxxx" @change="assign"/> -->
+		  <!-- v-model 指令双向绑定参数，要达到相同的效果，老方法是使用事件监听，修改val值的方法 -->
+		<input type="text" name="xxx" id="xxxx" v-model="val"/>
+		<button type="button" @click="hide()">点我隐藏</button>
+		<button type="button" @click="insertOne()">增加代办</button>
+		<div v-show="isShow">条件显示</div>
+		<div v-if="todoList.length == 0" class="color: red">待办事项空空如也</div>
+		<ul v-else>
+			<!-- 这里实现了自动增加、删除待办项和选中高亮的功能 -->
+			<li v-for="(item, idx) in todoList" :class=" offset==idx?'selected':'' " @click="select(idx)">
+				{{ item }}
+				<button type="button" @click="handleDelete(idx)">删除</button>
+			</li>
+		</ul>
+		</div>
+		<script type="text/javascript">
+		// 必须包含在el元素中vue才能生效
+			var vm = new Vue({
+			  el: '#app-2',	
+			  data: {
+				title: '页面加载于 ' + new Date().toLocaleString(),
+				todoList: [],
+				val: "",
+				isShow: false,
+				offset: -1
+			  },
+			  methods: {
+				  select(idx) {
+					  this.offset = idx
+				  },
+				  hide() {
+					  this.isExist = !this.isExist;
+					  this.isShow = !this.isShow;
+				  },
+				  insertOne() {
+					  console.log(this.val)
+					  this.todoList.push(this.val);
+					  this.val = "";
+				  },
+				  // assign(evt) {
+					 //  this.val = evt.target.value;
+					 //  console.log(this.val)
+				  // },
+				  handleDelete(i) {
+					  this.todoList.splice(i,1);
+				  }
+			  }
+			})
+		</script>
+	</body>
+</html>

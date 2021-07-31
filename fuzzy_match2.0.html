@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>模糊匹配</title>
+		<script type="text/javascript" src="js/vue.js">
+		</script>
+	</head>
+	<body>
+		<div id="fuzzy">
+			<!-- 去掉1.0的监听，使用双向绑定修改keyword,然后在v-for中使用函数表达式迭代筛选过的数组 -->
+			<input type="xxx" placeholder="keyword" v-model="keyword"/>
+			<ul>
+				<li v-for="item in search()">
+					{{ item }}
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: "#fuzzy",
+				data: {
+					datalist: ["aaa", "bbb", "abb", "ccc", "bbc", "abc", "aba", "ccb", "光明", "明白"],
+					keyword: ""
+				},
+				methods: {
+					search() {
+						//这里有点像python的map自建函数，用正则判断，返回布尔值为true的数组元素
+						return this.datalist.filter(item=>{
+							// 正则表达式
+							var reg = new RegExp('('+ this.keyword +')');
+							return reg.test(item);
+						});
+					}
+				}
+			}
+			)
+			// var str = "Visit nRunoob!"; 
+			// var n = str.search(/Runoob/i);
+			// console.log(n);
+		</script>
+	</body>
+</html>

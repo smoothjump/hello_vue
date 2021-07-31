@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Hello vue.js</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<style type="text/css">
+			.aa {
+				background-color: aqua;
+			}
+			.bb {
+				color: white;
+			}
+			.cc {
+				text-align: right;
+			}
+		</style>
+		<div id="dynamic-class-example">
+			<div id="xxx" :class="myclass">
+				测试动态class
+			</div>
+		</div>
+		<script type="text/javascript">
+		// 必须包含在el元素中vue才能生效
+			var vm = new Vue({
+			  el: '#dynamic-class-example',	
+			  data: {
+				  // 对象写法
+				  myclass: {
+					  "aa": true,
+					  "bb": true,
+					  "cc": true,
+				  }
+			  },
+			  methods: {
+				  
+			  }
+			})
+		</script>
+	</body>
+</html>

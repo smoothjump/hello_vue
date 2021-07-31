@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>购物车</title>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<style>
+			img {
+				width: 80px;
+				height: 65px;
+			}
+			.small {
+				width: 20px;
+			}
+			td {
+				padding: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mycart">
+			<h2>我的购物车</h2>
+			<div v-if="cartList.length==0">购物车是空的~~</div>
+			<div v-else>
+			<table border="0">
+				<tr v-for="(item, idx) in cartList" :key=item.id>
+					<td><input type="checkbox" :value="item" v-model="selected" @change="checked"/></td>
+					<td><img :src="item.pic" ></td>
+					<td>名称: {{item.name}}<br/>价格:￥{{item.price}}</td>
+					<td>
+						<button type="button" @click="item.amount--" :disabled="item.amount==1">-</button>
+						<input readonly="1" class="small" :value="item.amount"/>
+						<button type="button" @click="item.amount++" :disabled="item.limit==item.amount">+</button>
+					</td>
+					<td><button type="button" @click="deleteOne(idx, item.id)">删除</button></td>
+				</tr>
+			</table>
+			<input type="checkbox" v-model="flags" @change="select"/>全选/全不选<br><br>
+				<button type="button" @click="deleteSelected">批量删除</button><h2 style="background-color: azure;">预计花费： {{sum()}} </h2>
+			<button type="button">去结算</button>
+			</div>
+		</div>
+		<script type="text/javascript">
+			vm = new Vue({
+				el: "#mycart",
+				data: {
+					flags: false,
+					selected: [],
+					cartList: [{
+						id: 1,
+						name: "皮包",
+						limit: 15,
+						price: 22.9,
+						pic: "https://gd2.alicdn.com/imgextra/i2/0/O1CN01Ml81Bv1KShEut14wU_!!0-item_pic.jpg",
+						amount: 1
+					},
+					{
+						id: 2,
+						name: "武器",
+						limit: 10,
+						price: 39.9,
+						pic: "https://img.alicdn.com/imgextra/i1/2878464377/O1CN01LuFCbX1iCi9DuvlDv_!!2878464377-0-daren.jpg_300x300.jpg",
+						amount: 1
+					},
+					{
+						id: 3,
+						name: "折扇",
+						limit: 5,
+						price: 89,
+						pic: "https://gd4.alicdn.com/imgextra/i2/58161980/O1CN016VW2j91QUst9j2aE6_!!58161980.jpg_400x400.jpg",
+						amount: 1
+					}]
+				},
+				methods: {
+					sum() {
+						var total = 0;
+						this.selected.forEach(item=>{
+							total += item.price * item.amount
+						})
+						return Math.round(total*100)/100;
+					},
+					checked() {
+						if(this.selected.length < this.cartList.length) {
+							this.flags = false
+						}
+						else {
+							this.flags = true
+						}
+					},
+					deleteOne(idx, id) {
+						this.cartList.splice(idx, 1);
+						this.selected = this.selected.filter(item=>item.id!=id);
+						//额外判断是否全选
+						if(this.cartList.length == this.selected.length) {
+							this.flags = true
+						}
+						else {
+							this.flags = false
+						}
+					},
+					deleteSelected() {
+						this.cartList = this.cartList.filter(item=>{
+							flag = true;
+							this.selected.forEach(t=>{
+								if(t.id === item.id) {
+									flag = false;
+									return
+								}
+							})
+							return flag;
+						});
+						selected=[];
+						flags=false
+					},
+					select() {
+						if(this.flags) {
+							this.selected = this.cartList
+						}
+						else {
+							this.selected = []
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
